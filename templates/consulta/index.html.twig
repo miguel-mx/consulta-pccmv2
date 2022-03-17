@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consulta{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
+        <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
+
+        <div class="row my-5">
+            <p>Ingrese su correo electrónico para recibir la dirección de consulta.</p>
+            <div class="col-12 col-lg-4">
+                {{ form(form) }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
