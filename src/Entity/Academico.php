@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AcademicoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=AcademicoRepository::class)
@@ -44,8 +45,14 @@ class Academico
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"nombre", "apellido"})
      */
     private $slug;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $voto;
 
     public function getId(): ?int
     {
@@ -120,6 +127,18 @@ class Academico
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getVoto(): ?bool
+    {
+        return $this->voto;
+    }
+
+    public function setVoto(?bool $voto): self
+    {
+        $this->voto = $voto;
 
         return $this;
     }

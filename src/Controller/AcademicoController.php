@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Academico;
+use App\Form\VotoType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -47,7 +48,7 @@ class AcademicoController extends AbstractController
             if (!$academico) {
                 $this->addFlash(
                     'danger',
-                    'Correo no encontrado'
+                    'Correo no encontrado, favor de comunicarse con el Coordinador del Posgrado'
                 );
 
                 $form
@@ -83,8 +84,8 @@ class AcademicoController extends AbstractController
                     //->bcc('bcc@example.com')
                     //->replyTo('fabien@example.com')
                     //->priority(Email::PRIORITY_HIGH)
-                    ->subject('Votación Comisión Dictaminadora')
-                    ->text('Votación Comisión Dictaminadora
+                    ->subject('Consulta Núcleo Académico del Posgrado')
+                    ->text('Consulta Núcleo Académico del Posgrado
                                      '. $urlVoto)
                     ->html('<p>Votación Comisión Dictaminadora</p>
                                       <a href="' . $urlVoto . '">'. $urlVoto . '</a>
@@ -97,7 +98,6 @@ class AcademicoController extends AbstractController
                     // some error prevented the email sending; display an
                     // error message or try to resend the message
                 }
-
 
                 $this->addFlash(
                     'success',
@@ -121,19 +121,13 @@ class AcademicoController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
 
-        $repository = $doctrine->getRepository(Elegible::class);
-        $elegibles = $repository->findBy(
-            array(), array('nombre'=>'asc')
-        );
-
-        $form = $this->createForm(BoletaType::class);
-
+        $form = $this->createForm(VotoType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $academico->setVoto($data["category"]);
+            $academico->setVoto($data["voto"]);
 
             $dateNow = new \DateTime("now");
             $academico->setFecha($dateNow);
@@ -149,7 +143,6 @@ class AcademicoController extends AbstractController
 
         return $this->renderForm('consulta/voto.html.twig', [
             'form' => $form,
-            'elegibles' => $elegibles,
             'academico' => $academico,
         ]);
     }

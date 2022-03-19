@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consulta{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
+        <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
+
+        {% if academico.voto is not null %}
+
+            <p class="lead mt-5 mb-3">Voto recibido:</p>
+
+
+            {{ academico.voto ? 'Sí' : 'No' }}
+{#            <div class="row">#}
+{#                <div class="col-12 col-lg-8">#}
+{#                    <div class="card card-input">#}
+{#                        <div class="card-body">#}
+{#                            <div class="d-flex align-items-baseline mb-2">#}
+{#                                <div class="nombre d-inline-flex">{{ consulta.voto.nombre }}</div><div class="correo d-flex ">{{ consulta.voto.email }}</div>#}
+{#                            </div>#}
+{#                            <div class="nombramiento">{{ consulta.voto.nombramiento }}<br>#}
+{#                                <span class="adscripcion">{{ consulta.voto.adscripcion}}</span>#}
+{#                            </div>#}
+
+{#                            <div class="areas mt-2">{{ consulta.voto.area }}</div>#}
+{#                            <div class="url"><a href="{{ consulta.voto.url }}" target="_blank">{{ consulta.voto.url }}</a></div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+            <hr class="my-5">
+
+            <div class="resultados row">
+                <div class="col-12 col-lg-6">
+                    <p class="lead mb-4">Resultados hasta el momento</p>
+                    <ul class="list-group">
+{#                        {% for elegible in elegibles %}#}
+{#                            <li class="list-group-item">#}
+{#                                <div class="d-flex justify-content-between"><div>{{ elegible.nombre }}</div><div>{{ elegible.votos|length }}</div></div>#}
+
+{#                            </li>#}
+{#                        {% endfor %}#}
+                    </ul>
+                </div>
+            </div>
+
+        {% else %}
+
+{#            <div class="alert alert-info mt-5">#}
+{#                Para votar seleccione solo una de las siguientes candidatas#}
+{#            </div>#}
+            <div class="row">
+                <div class="col-8">
+                <p class="lead mt-5">¿Considera usted pertinente que dos profesores del PCCM puedan impartir un curso conjuntamente siendo ambos responsables del curso?  </p>
+                </div>
+            </div>
+
+{#            {{ form(form) }}#}
+
+            <form name="voto" method="post">
+                <div id="voto">
+                    <fieldset class="my-4">
+                        <div id="voto_voto">
+                            <div class="btn-group">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label required js-label" for="voto_voto_0">
+                                        {#                <label class="form-check-label required" for="boleta_category_{{ elegible.id }}">#}
+                                        <input type="radio" id="voto_voto_0" name="voto[voto]" required="required" class="form-check-input js-input" value="1"/>
+                                        <button id="btn-si" type="button" class="btn btn-outline-secondary btn-lg w-100 js-button" disabled>Sí</button>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label required js-label" for="voto_voto_1">
+                                        {#                <label class="form-check-label required" for="boleta_category_{{ elegible.id }}">#}
+                                        <input type="radio" id="voto_voto_1" name="voto[voto]" required="required" class="form-check-input js-input" value="1"/>
+                                        <button id="btn-no" type="button" class="btn btn-outline-secondary btn-lg w-100 js-button" disabled>No</button>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" id="voto_votar" name="voto[votar]" class="btn btn-primary d-none">Votar</button>
+            </form>
+
+
+
+
+            {#                            <div class="form-check">#}
+            {#                                <input type="radio" id="voto_voto_0" name="voto[voto]" required="required" class="form-check-input" value="1" />#}
+            {#                                <label class="form-check-label required" for="voto_voto_0">Sí</label>#}
+            {#                            </div>#}
+            {#                            <div class="form-check">#}
+            {#                                <input type="radio" id="voto_voto_1" name="voto[voto]" required="required" class="form-check-input" value="0" />#}
+            {#                                <label class="form-check-label required" for="voto_voto_1">No</label>#}
+            {#                            </div>#}
+
+
+{#            <div class="row justify-content-md-center p-4">#}
+{#                <div class="col-12 col-lg-8">#}
+{#                    <form name="boleta" method="post">#}
+{#                        <div id="boleta">#}
+{#                            <fieldset class="mb-3">#}
+{#                                <div id="boleta_category">#}
+{#                                    {% for elegible in elegibles %}#}
+{#                                        <div class="form-check my-4">#}
+{#                                            <label class="form-check-label required" for="boleta_category_{{ elegible.id }}">#}
+{#                                                <input type="radio" id="boleta_category_{{ elegible.id }}" name="boleta[category]" required="required" class="form-check-input" value="{{ elegible.id }}" onclick="enableVote()"/>#}
+{#                                                <div class="card card-input">#}
+{#                                                    <div class="card-body">#}
+{#                                                        <div class="d-flex align-items-baseline mb-2">#}
+{#                                                            <div class="nombre d-inline-flex">{{ elegible.nombre }}</div><div class="correo d-flex ">{{ elegible.email }}</div>#}
+{#                                                        </div>#}
+{#                                                        <div class="nombramiento">{{ elegible.nombramiento }}<br>#}
+{#                                                            <span class="adscripcion">{{ elegible.adscripcion}}</span>#}
+{#                                                        </div>#}
+
+{#                                                        <div class="areas mt-2">{{ elegible.area }}</div>#}
+{#                                                        <div class="url"><a href="{{ elegible.url }}" target="_blank">{{ elegible.url }}</a></div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </label>#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
+{#                            </fieldset>#}
+
+                            {# Token #}
+    {#                            {{ form_row(form._token) }}#}
+                            {#                    <input type="hidden" id="boleta__token" name="boleta[_token]" value="e7d592da313f869fd071cb63cd245e5.nt-03CdGk87ASOARNvlqqZCz7o3jgJ1j2V-8ThsDCkg.2I6BkhEjov3zApl6Bost8KfKlN-F8d8oumzJDWxpfi-n6tCtYnfwoa4NsQ" /></div>#}
+
+{#                            <div class="mb-3"><button type="submit" id="boleta_votar" name="boleta[votar]" class="btn-success btn btn-lg" disabled>Votar</button></div>#}
+                    </form>
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+{% endblock %}
+ {% block javascripts %}
+     {{ parent() }}
+
+     <script>
+         let input = document.getElementsByClassName("js-input");
+
+         for(let i = 0; i < input.length; i++) {
+
+             input[i].addEventListener("click", event => {
+
+                let btn = input[i].parentElement.getElementsByClassName('js-button')[0];
+                console.log(btn);
+
+                 if(btn.classList.contains("btn-outline-secondary")){
+                     if(btn.innerHTML === 'Sí'){
+                         btn.classList.replace('btn-outline-secondary', 'btn-success');
+
+                         let btnNo = document.getElementById("btn-no");
+                         console.log(btnNo);
+
+                         if(btnNo.classList.contains("btn-danger")){
+                             btnNo.classList.replace('btn-danger', 'btn-outline-secondary');
+                         }
+                     }
+                     else if(btn.innerHTML === 'No'){
+                         btn.classList.replace('btn-outline-secondary', 'btn-danger');
+
+                         let btnYes = document.getElementById("btn-si");
+                         if(btnYes.classList.contains("btn-success")){
+                             btnYes.classList.replace('btn-success', 'btn-outline-secondary');
+                         }
+                     }
+
+                     document.getElementById('voto_votar').classList.remove('d-none');
+                 }
+             });
+         }
+
+     </script>
+ {% endblock %}
