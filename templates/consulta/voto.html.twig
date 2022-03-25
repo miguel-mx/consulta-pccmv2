@@ -8,12 +8,19 @@
         <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
         <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
 
+        {% set vMax = 32 %}
+
         {% if academico.voto is not null %}
 
-            <p class="lead mt-5 mb-3">Voto recibido:</p>
+            <div class="d-flex mt-5">
+            <div class="lead mb-3 me-2">Voto recibido: </div>
 
-
-            {{ academico.voto ? 'Sí' : 'No' }}
+            {%  if academico.voto == true %}
+                <div class="lead text-success"><i class="bi bi-check2-circle"></i> <strong>Si</strong></div>
+            {% elseif academico.voto == false %}
+                <div class="lead text-danger"><i class="bi bi-x-square"></i> <strong>No</strong></div>
+            {% endif %}
+            </div>
 {#            <div class="row">#}
 {#                <div class="col-12 col-lg-8">#}
 {#                    <div class="card card-input">#}
@@ -35,16 +42,16 @@
             <hr class="my-5">
 
             <div class="resultados row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-sm-8">
                     <p class="lead mb-4">Resultados hasta el momento</p>
-                    <ul class="list-group">
-{#                        {% for elegible in elegibles %}#}
-{#                            <li class="list-group-item">#}
-{#                                <div class="d-flex justify-content-between"><div>{{ elegible.nombre }}</div><div>{{ elegible.votos|length }}</div></div>#}
-
-{#                            </li>#}
-{#                        {% endfor %}#}
-                    </ul>
+                    <div class="mt-3">Si: {{ votosSi }}</div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (votosSi/vMax)*100 }}%;" aria-valuenow="{{ (votosSi/vMax)*100 }}" aria-valuemin="0" aria-valuemax="{{ vMax }}"></div>
+                    </div>
+                    <div class="mt-3">No: {{ votosNo }}</div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ (votosNo/vMax)*100 }}%;" aria-valuenow="{{ (votosNo/vMax)*100 }}" aria-valuemin="0" aria-valuemax="{{ vMax }}"></div>
+                    </div>
                 </div>
             </div>
 
@@ -85,6 +92,8 @@
                     </fieldset>
                 </div>
 
+                {# Token #}
+                {{ form_row(form._token) }}
                 <button type="submit" id="voto_votar" name="voto[votar]" class="btn btn-primary d-none">Votar</button>
             </form>
 

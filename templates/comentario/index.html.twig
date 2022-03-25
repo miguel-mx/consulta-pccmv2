@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comentario index{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
+        <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
+
+        {% if comentarios|length == 0 %}
+            <div class="empty">
+                <div class="display-6">Aún no hay comentarios</div>
+            </div>
+        {% else %}
+            <table class="table my-5">
+                <thead></thead>
+                <tbody>
+                {% for comentario in comentarios %}
+                    <tr>
+                        <td class="py-4">
+                            <div class="d-flex flex-column">
+
+                                <div>{{ comentario.nombre }}</div>
+                                {% if comentario.fecha %}
+                                    <div class="text-secondary fecha-comentario">
+                                        {{ comentario.fecha|ago }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="py-4"><div class="comentario">{{ comentario.comentario | raw }}</div></td>
+                        {# <td>{{ comentario.fecha ? comentario.fecha|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_comentario_show', {'id': comentario.id}) }}">show</a>
+                    <a href="{{ path('app_comentario_edit', {'id': comentario.id}) }}">edit</a>
+                </td>#}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <a href="{{ path('app_comentario_new') }}">Create new</a>
+
+    </div>
+{% endblock %}
