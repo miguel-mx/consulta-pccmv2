@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ComentarioRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comentario
 {
@@ -71,5 +72,13 @@ class Comentario
         $this->fecha = $fecha;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setFechaValue(): void
+    {
+        $this->fecha = new \DateTimeImmutable();
     }
 }

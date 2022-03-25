@@ -45,6 +45,16 @@ class AcademicoRepository extends ServiceEntityRepository
         }
     }
 
+    public function cuentaVotos($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.voto = :val')
+            ->setParameter('val', $value)
+            ->select('COUNT(c.voto) as votos')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Academico[] Returns an array of Academico objects
     //  */

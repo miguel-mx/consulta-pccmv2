@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+{#    {{ form_widget(form) }}#}
+
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-8">
+            {{ form_row(form.nombre) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            {{ form_row(form.comentario) }}
+        </div>
+    </div>
+    <button class="btn btn-success">{{ button_label|default('Enviar') }}</button>
+{{ form_end(form) }}

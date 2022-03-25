@@ -23,6 +23,10 @@
     background-color: #f8f9fa;
 }
 
+.js-label:hover {
+    background-color: #fffbef;
+}
+
 .form-check-input:checked + .card-input {
     box-shadow: 0 0 1px 1px #2ecc71;
     background-color: #c7ffc7;
@@ -30,4 +34,32 @@
 
 .form-check {
     padding-left: 0;
+}
+
+.empty {
+    -ms-flex-pack: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 70vh;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.comentario {
+    width: 36rem;
+}
+
+.fecha-comentario {
+    font-size: .8rem;
+}
+
+.progress {
+    height: 25px;
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Academico;
 use App\Form\VotoType;
+use App\Repository\AcademicoRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -75,7 +76,7 @@ class AcademicoController extends AbstractController
                 $transport = new EsmtpTransport('churipo.matmor.unam.mx', 465, false);
                 $mailer = new Mailer($transport);
 
-                $urlVoto = "https://dev.matmor.unam.mx/consulta-pccm/voto/" . $academico->getToken();
+                $urlVoto = "https://dev.matmor.unam.mx/consulta-nucleo-academico/voto/" . $academico->getToken();
 
                 $email = (new Email())
                     ->from('info@matmor.unam.mx')
@@ -87,7 +88,7 @@ class AcademicoController extends AbstractController
                     ->subject('Consulta Núcleo Académico del Posgrado')
                     ->text('Consulta Núcleo Académico del Posgrado
                                      '. $urlVoto)
-                    ->html('<p>Votación Comisión Dictaminadora</p>
+                    ->html('<p>Votación</p>
                                       <a href="' . $urlVoto . '">'. $urlVoto . '</a>
                         ');
 
@@ -117,7 +118,7 @@ class AcademicoController extends AbstractController
     /**
      * @Route("/voto/{token}", name="consulta_voto")
      */
-    public function voto(Request $request, ManagerRegistry $doctrine, Academico $academico): Response
+    public function voto(Request $request, ManagerRegistry $doctrine, Academico $academico, AcademicoRepository $academicoRepository): Response
     {
         $entityManager = $doctrine->getManager();
 
@@ -141,9 +142,17 @@ class AcademicoController extends AbstractController
             );
         }
 
+        $votosSi = $academicoRepository
+            ->cuentaVotos(1);
+
+        $votosNo = $academicoRepository
+            ->cuentaVotos(0);
+
         return $this->renderForm('consulta/voto.html.twig', [
             'form' => $form,
             'academico' => $academico,
+            'votosSi' => $votosSi,
+            'votosNo' => $votosNo,
         ]);
     }
 
