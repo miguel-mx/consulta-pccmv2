@@ -52,6 +52,13 @@
                     <div class="progress mb-3">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: {{ (votosNo/vMax)*100 }}%;" aria-valuenow="{{ (votosNo/vMax)*100 }}" aria-valuemin="0" aria-valuemax="{{ vMax }}"></div>
                     </div>
+
+                    <div class="alert alert-info mt-5">
+                        Esta página se actualizará continuamente con los votos de los académicos.
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <a class="btn btn-outline-success" href="{{ path('app_comentario_index') }}" role="button">Continuar a los comentarios <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
 
