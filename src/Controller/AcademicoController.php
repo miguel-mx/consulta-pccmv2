@@ -6,6 +6,8 @@ use App\Entity\Academico;
 use App\Form\VotoType;
 use App\Repository\AcademicoRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,9 +16,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 
 class AcademicoController extends AbstractController
 {
@@ -72,33 +77,39 @@ class AcademicoController extends AbstractController
                 $token = $academico->getToken();
 
                 // Envía Correo
+                // https://github.com/symfony/symfony/issues/35990
 
                 $transport = new EsmtpTransport('churipo.matmor.unam.mx', 465, false);
                 $mailer = new Mailer($transport);
 
                 $urlVoto = "https://dev.matmor.unam.mx/consulta-nucleo-academico/voto/" . $academico->getToken();
 
-                $email = (new Email())
+                $email = (new TemplatedEmail())
                     ->from('info@matmor.unam.mx')
                     ->to($academico->getEmail())
-                    //->cc('cc@example.com')
-                    //->bcc('bcc@example.com')
-                    //->replyTo('fabien@example.com')
-                    //->priority(Email::PRIORITY_HIGH)
                     ->subject('Consulta Núcleo Académico del Posgrado')
                     ->text('Consulta Núcleo Académico del Posgrado
-                                     '. $urlVoto)
-                    ->html('<p>Votación</p>
-                                      <a href="' . $urlVoto . '">'. $urlVoto . '</a>
-                        ');
+                    
+Favor de votar en el siguiente enlace
 
-                //$mailer->send($email);
-                try {
-                    $mailer->send($email);
-                } catch (TransportExceptionInterface $e) {
-                    // some error prevented the email sending; display an
-                    // error message or try to resend the message
-                }
+'. $urlVoto);
+//                    ->html('<p>Votación</p>
+//                                      <a href="' . $urlVoto . '">'. $urlVoto . '</a>
+//
+//                        ');
+//                    ->htmlTemplate('emails/votoemail.html.twig')
+//                    ->textTemplate('emails/votoemail.txt.twig')
+//                    ->context([
+//                        'urlVoto' => $urlVoto,
+//                    ]);
+
+                $mailer->send($email);
+//                try {
+//                    $mailer->send($email);
+//                } catch (TransportExceptionInterface $e) {
+//                    // some error prevented the email sending; display an
+//                    // error message or try to resend the message
+//                }
 
                 $this->addFlash(
                     'success',

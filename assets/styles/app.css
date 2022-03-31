@@ -63,3 +63,7 @@
 .progress {
     height: 25px;
 }
+
+.text-justify {
+    text-align: justify;
+}

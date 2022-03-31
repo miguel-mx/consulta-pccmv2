@@ -8,6 +8,8 @@
         <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
         <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
 
+        <a class="btn btn-outline-success mt-5" role="button" href="{{ path('app_comentario_new') }}"><i class="bi bi-pencil"></i> Agregar comentario</a>
+
         {% if comentarios|length == 0 %}
             <div class="empty">
                 <div class="display-6">Aún no hay comentarios</div>
@@ -44,8 +46,6 @@
                 </tbody>
             </table>
         {% endif %}
-
-        <a href="{{ path('app_comentario_new') }}">Create new</a>
 
     </div>
 {% endblock %}

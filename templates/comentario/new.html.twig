@@ -4,10 +4,15 @@
 
 {% block body %}
     <div class="container">
-        <h1>Create new Comentario</h1>
+        <h2 class="mt-5">Consulta al Núcleo Académico Posgrado</h2>
+        <h3 class="text-secondary">Posgrado Conjunto en Ciencias Matemáticas UNAM UMSNH</h3>
+
+        <div class="row mt-5">
+            <div class="col-12 col-md-8">
+                <div class="alert alert-info">Los comentarios son anónimos. El nombre es opcional</div>
+            </div>
+        </div>
 
         {{ include('comentario/_form.html.twig') }}
-
-{#        <a href="{{ path('app_comentario_index') }}">back to list</a>#}
     </div>
 {% endblock %}
